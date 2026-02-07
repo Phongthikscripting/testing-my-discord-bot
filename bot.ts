@@ -7,7 +7,7 @@ import {
   SlashCommandBuilder,
   EmbedBuilder,
 } from "discord.js";
-import { storage } from "./storage";
+import { storage } from "./storage.ts";
 import axios from "axios";
 
 const client = new Client({
@@ -126,7 +126,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       try {
         const response = await axios.get("https://meme-api.com/gimme");
         return await interaction.reply(response.data.url);
-      } catch (error: any) {
+      } catch (error) {
         console.error("Meme error:", error);
         return await interaction.reply("Couldn't find a meme right now 😢");
       }
@@ -167,14 +167,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
 /sayembed - bot says embed  
 /minos - minos gif  
 /help - show this list  
-
-this help have written by chatgpt BTW
         `)
         .setFooter({ text: "bantumlum bot" });
 
       return await interaction.reply({ embeds: [embed] });
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error("Interaction error:", error);
     if (!interaction.replied) {
       await interaction.reply({ content: "Error 😢", ephemeral: true });
@@ -201,7 +199,7 @@ export async function startBot() {
   try {
     await client.login(token);
     return true;
-  } catch (error: any) {
+  } catch (error) {
     console.error("Failed to login to Discord:", error);
     return false;
   }
